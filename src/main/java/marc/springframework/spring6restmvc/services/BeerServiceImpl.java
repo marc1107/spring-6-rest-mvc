@@ -90,6 +90,8 @@ public class BeerServiceImpl implements BeerService
 
         if (beer.getQuantityOnHand() != null) existing.setQuantityOnHand(beer.getQuantityOnHand());
 
+        existing.setUpdateDate(LocalDateTime.now());
+
         beerMap.put(existing.getId(), existing);
     }
 }
