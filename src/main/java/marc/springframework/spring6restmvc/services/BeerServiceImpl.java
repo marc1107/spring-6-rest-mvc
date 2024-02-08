@@ -70,6 +70,7 @@ public class BeerServiceImpl implements BeerService
     public Beer getBeerById(UUID id)
     {
         log.debug("Get Beer Id - in service. Id: " + id.toString());
+
         return beerMap.get(id);
     }
 }
