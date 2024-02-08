@@ -22,7 +22,7 @@ public class CustomerServiceImpl implements CustomerService
                 .version(1)
                 .customerName("Marc Bohner")
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         Customer customer2 = Customer.builder()
@@ -30,7 +30,7 @@ public class CustomerServiceImpl implements CustomerService
                 .version(1)
                 .customerName("John Doe")
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
 
         customerMap.put(customer1.getId(), customer1);
@@ -56,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService
         Customer savedCustomer = Customer.builder()
                 .id(UUID.randomUUID())
                 .createdDate(LocalDateTime.now())
-                .lastModifiedDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .version(1)
                 .customerName(customer.getCustomerName())
                 .build();
@@ -72,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService
         Customer existing = customerMap.get(customerId);
 
         existing.setCustomerName(customer.getCustomerName());
-        existing.setLastModifiedDate(LocalDateTime.now());
+        existing.setUpdateDate(LocalDateTime.now());
 
         customerMap.put(existing.getId(), existing);
     }
@@ -81,5 +81,17 @@ public class CustomerServiceImpl implements CustomerService
     public void deleteById(UUID customerId)
     {
         customerMap.remove(customerId);
+    }
+
+    @Override
+    public void patchCustomerById(UUID customerId, Customer customer)
+    {
+        Customer existing = customerMap.get(customerId);
+
+        if (customer.getCustomerName() != null) existing.setCustomerName(customer.getCustomerName());
+
+        existing.setUpdateDate(LocalDateTime.now());
+
+        customerMap.put(existing.getId(), existing);
     }
 }
