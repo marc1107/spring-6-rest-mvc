@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import marc.springframework.spring6restmvc.model.Customer;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -18,14 +19,18 @@ public class CustomerServiceImpl implements CustomerService
 
         Customer customer1 = Customer.builder()
                 .id(UUID.randomUUID())
-                .firstName("Marc")
-                .lastName("Bohner")
+                .version(1)
+                .customerName("Marc Bohner")
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         Customer customer2 = Customer.builder()
                 .id(UUID.randomUUID())
-                .firstName("John")
-                .lastName("Doe")
+                .version(1)
+                .customerName("John Doe")
+                .createdDate(LocalDateTime.now())
+                .lastModifiedDate(LocalDateTime.now())
                 .build();
 
         customerMap.put(customer1.getId(), customer1);

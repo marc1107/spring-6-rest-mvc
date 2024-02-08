@@ -3,6 +3,7 @@ package marc.springframework.spring6restmvc.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -10,6 +11,8 @@ import java.util.UUID;
 public class Customer
 {
     private UUID id;
-    private String firstName;
-    private String lastName;
+    private Integer version;
+    private String customerName;
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
 }
