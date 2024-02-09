@@ -1,6 +1,5 @@
 package marc.springframework.spring6restmvc.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import marc.springframework.spring6restmvc.model.Beer;
@@ -38,7 +37,7 @@ public class BeerController
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity updateById(@PathVariable UUID beerId,@RequestBody Beer beer)
+    public ResponseEntity updateById(@PathVariable UUID beerId, @RequestBody Beer beer)
     {
         beerService.updateBeerById(beerId, beer);
 
