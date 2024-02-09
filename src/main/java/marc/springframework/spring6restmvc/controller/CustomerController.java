@@ -15,12 +15,14 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/customer")
 public class CustomerController
 {
+    public static final String CUSTOMER_PATH = "/api/v1/customer";
+    public static final String CUSTOMER_PATH_ID = "/api/v1/customer/{customerId}";
+
     private final CustomerService customerService;
 
-    @PatchMapping("/{customerId}")
+    @PatchMapping(CUSTOMER_PATH_ID)
     public ResponseEntity handlePatch(@PathVariable UUID customerId, @RequestBody Customer customer)
     {
         customerService.patchCustomerById(customerId, customer);
@@ -28,7 +30,7 @@ public class CustomerController
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{customerId}")
+    @DeleteMapping(CUSTOMER_PATH_ID)
     public ResponseEntity deleteById(@PathVariable UUID customerId)
     {
         customerService.deleteById(customerId);
@@ -36,7 +38,7 @@ public class CustomerController
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("/{customerId}")
+    @PutMapping(CUSTOMER_PATH_ID)
     public ResponseEntity updateById(@PathVariable UUID customerId, @RequestBody Customer customer)
     {
         customerService.updateCustomerById(customerId, customer);
@@ -44,7 +46,7 @@ public class CustomerController
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping
+    @PostMapping(CUSTOMER_PATH)
     public ResponseEntity handlePost(@RequestBody Customer customer)
     {
         Customer savedCustomer = customerService.saveNewCustomer(customer);
@@ -55,13 +57,13 @@ public class CustomerController
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-    @GetMapping
+    @GetMapping(CUSTOMER_PATH)
     public List<Customer> listCustomers()
     {
         return customerService.listCustomers();
     }
 
-    @GetMapping("/{customerId}")
+    @GetMapping(CUSTOMER_PATH_ID)
     public Customer getCustomerById(@PathVariable UUID customerId)
     {
         log.debug("Get Customer by Id - in controller");
