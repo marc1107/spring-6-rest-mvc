@@ -55,13 +55,13 @@ public class CustomerController
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public List<Customer> listCustomers()
     {
         return customerService.listCustomers();
     }
 
-    @RequestMapping(value = "/{customerId}", method = RequestMethod.GET)
+    @GetMapping("/{customerId}")
     public Customer getCustomerById(@PathVariable UUID customerId)
     {
         log.debug("Get Customer by Id - in controller");
