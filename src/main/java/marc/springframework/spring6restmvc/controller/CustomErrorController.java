@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class CustomErrorController
 {
-    @ExceptionHandler
+    /*@ExceptionHandler
     ResponseEntity handleJPAViolation(TransactionSystemException exception)
     {
-        return ResponseEntity.badRequest().build();
-    }
+        ResponseEntity.BodyBuilder responseEntity = ResponseEntity.badRequest();
+
+        return responseEntity.build();
+    }*/
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity handleBindErrors(MethodArgumentNotValidException exception)

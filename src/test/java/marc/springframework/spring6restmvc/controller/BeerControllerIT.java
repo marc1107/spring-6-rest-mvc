@@ -23,10 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -58,7 +59,7 @@ class BeerControllerIT
     @Test
     void testPatchBeerBadName() throws Exception
     {
-        Beer beer = beerRepository.findAll().getFirst();
+        Beer beer = beerRepository.findAll().get(0);
 
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name 23748345834806276048527564375862357645716485631064385643ß156437537157437530853517345675658568568657657567567575756757576756756756756757657567545634");
@@ -67,7 +68,9 @@ class BeerControllerIT
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                /*.andExpect(jsonPath("$.length()").value(1))
+                .andReturn()*/;
     }
 
     @Test
