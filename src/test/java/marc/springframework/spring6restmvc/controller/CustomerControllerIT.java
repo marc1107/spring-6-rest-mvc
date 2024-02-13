@@ -31,6 +31,14 @@ class CustomerControllerIT
     CustomerMapper customerMapper;
 
     @Test
+    void testUpdateNotFound()
+    {
+        assertThrows(NotFoundException.class, () -> {
+            customerController.updateById(UUID.randomUUID(), CustomerDTO.builder().build());
+        });
+    }
+
+    @Test
     void updateExistingCustomer()
     {
         Customer customer = customerRepository.findAll().getFirst();
