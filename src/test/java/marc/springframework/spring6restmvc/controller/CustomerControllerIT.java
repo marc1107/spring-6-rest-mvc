@@ -30,6 +30,19 @@ class CustomerControllerIT
     @Autowired
     CustomerMapper customerMapper;
 
+    @Rollback
+    @Transactional
+    @Test
+    void deleteById()
+    {
+        Customer customer = customerRepository.findAll().getFirst();
+
+        ResponseEntity responseEntity = customerController.deleteById(customer.getId());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        assertThat(customerRepository.findById(customer.getId())).isEmpty();
+    }
+
     @Test
     void testUpdateNotFound()
     {
@@ -38,6 +51,8 @@ class CustomerControllerIT
         });
     }
 
+    @Rollback
+    @Transactional
     @Test
     void updateExistingCustomer()
     {
