@@ -2,7 +2,7 @@ package marc.springframework.spring6restmvc.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import marc.springframework.spring6restmvc.model.Customer;
+import marc.springframework.spring6restmvc.model.CustomerDTO;
 import marc.springframework.spring6restmvc.services.CustomerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class CustomerController
     private final CustomerService customerService;
 
     @PatchMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity handlePatch(@PathVariable UUID customerId, @RequestBody Customer customer)
+    public ResponseEntity handlePatch(@PathVariable UUID customerId, @RequestBody CustomerDTO customer)
     {
         customerService.patchCustomerById(customerId, customer);
 
@@ -39,7 +39,7 @@ public class CustomerController
     }
 
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateById(@PathVariable UUID customerId, @RequestBody Customer customer)
+    public ResponseEntity updateById(@PathVariable UUID customerId, @RequestBody CustomerDTO customer)
     {
         customerService.updateCustomerById(customerId, customer);
 
@@ -47,9 +47,9 @@ public class CustomerController
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity handlePost(@RequestBody Customer customer)
+    public ResponseEntity handlePost(@RequestBody CustomerDTO customer)
     {
-        Customer savedCustomer = customerService.saveNewCustomer(customer);
+        CustomerDTO savedCustomer = customerService.saveNewCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/customer/" + savedCustomer.getId().toString());
@@ -58,13 +58,13 @@ public class CustomerController
     }
 
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers()
+    public List<CustomerDTO> listCustomers()
     {
         return customerService.listCustomers();
     }
 
     @GetMapping(CUSTOMER_PATH_ID)
-    public Customer getCustomerById(@PathVariable UUID customerId)
+    public CustomerDTO getCustomerById(@PathVariable UUID customerId)
     {
         log.debug("Get Customer by Id - in controller");
 

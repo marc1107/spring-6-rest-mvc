@@ -2,7 +2,7 @@ package marc.springframework.spring6restmvc.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import marc.springframework.spring6restmvc.model.Beer;
+import marc.springframework.spring6restmvc.model.BeerDTO;
 import marc.springframework.spring6restmvc.services.BeerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class BeerController
     private final BeerService beerService;
 
     @PatchMapping(BEER_PATH_ID)
-    public ResponseEntity handlePatch(@PathVariable UUID beerId, @RequestBody Beer beer)
+    public ResponseEntity handlePatch(@PathVariable UUID beerId, @RequestBody BeerDTO beer)
     {
         beerService.patchBeerById(beerId, beer);
 
@@ -39,7 +39,7 @@ public class BeerController
     }
 
     @PutMapping(BEER_PATH_ID)
-    public ResponseEntity updateById(@PathVariable UUID beerId, @RequestBody Beer beer)
+    public ResponseEntity updateById(@PathVariable UUID beerId, @RequestBody BeerDTO beer)
     {
         beerService.updateBeerById(beerId, beer);
 
@@ -48,9 +48,9 @@ public class BeerController
 
     @PostMapping(BEER_PATH)
     //@RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity handlePost(@RequestBody Beer beer)
+    public ResponseEntity handlePost(@RequestBody BeerDTO beer)
     {
-        Beer savedBeer = beerService.saveNewBeer(beer);
+        BeerDTO savedBeer = beerService.saveNewBeer(beer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
@@ -59,13 +59,13 @@ public class BeerController
     }
 
     @GetMapping(BEER_PATH)
-    public List<Beer> listBeers()
+    public List<BeerDTO> listBeers()
     {
         return beerService.listBeers();
     }
 
     @GetMapping(BEER_PATH_ID)
-    public Beer getBeerById(@PathVariable UUID beerId)
+    public BeerDTO getBeerById(@PathVariable UUID beerId)
     {
         log.debug("Get Beer by Id - in controller");
 
