@@ -30,10 +30,18 @@ class CustomerControllerIT
     @Autowired
     CustomerMapper customerMapper;
 
+    @Test
+    void testDeleteByIdNotFound()
+    {
+        assertThrows(NotFoundException.class, () -> {
+            customerController.deleteById(UUID.randomUUID());
+        });
+    }
+
     @Rollback
     @Transactional
     @Test
-    void deleteById()
+    void deleteByIdFound()
     {
         Customer customer = customerRepository.findAll().getFirst();
 
