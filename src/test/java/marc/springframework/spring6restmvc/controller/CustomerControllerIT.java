@@ -1,6 +1,7 @@
 package marc.springframework.spring6restmvc.controller;
 
 import marc.springframework.spring6restmvc.entities.Customer;
+import marc.springframework.spring6restmvc.mappers.CustomerMapper;
 import marc.springframework.spring6restmvc.model.CustomerDTO;
 import marc.springframework.spring6restmvc.repositories.CustomerRepository;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,26 @@ class CustomerControllerIT
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Test
+    void updateExistingCustomer()
+    {
+        Customer customer = customerRepository.findAll().getFirst();
+        CustomerDTO customerDTO = customerMapper.customerToCustomerDto(customer);
+        customerDTO.setId(null);
+        customerDTO.setVersion(null);
+        final String customerName = "UPDATED";
+        customerDTO.setName(customerName);
+
+        ResponseEntity responseEntity = customerController.updateById(customer.getId(), customerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(updatedCustomer.getName()).isEqualTo(customerName);
+    }
 
     @Test
     void testCustomerNotFound()
