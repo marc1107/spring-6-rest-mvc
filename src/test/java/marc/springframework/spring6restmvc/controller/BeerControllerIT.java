@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -64,13 +65,15 @@ class BeerControllerIT
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name 23748345834806276048527564375862357645716485631064385643ß156437537157437530853517345675658568568657657567567575756757576756756756756757657567545634");
 
-        mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+        MvcResult result = mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
                 .andExpect(status().isBadRequest())
-                /*.andExpect(jsonPath("$.length()").value(1))
-                .andReturn()*/;
+                .andExpect(jsonPath("$.length()").value(1))
+                .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
     }
 
     @Test
