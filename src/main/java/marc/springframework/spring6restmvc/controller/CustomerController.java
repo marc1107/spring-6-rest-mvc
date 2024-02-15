@@ -7,6 +7,7 @@ import marc.springframework.spring6restmvc.services.CustomerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class CustomerController
     }
 
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity updateById(@PathVariable UUID customerId, @RequestBody CustomerDTO customer)
+    public ResponseEntity updateById(@PathVariable UUID customerId,@Validated @RequestBody CustomerDTO customer)
     {
         if (customerService.updateCustomerById(customerId, customer).isEmpty())
             throw new NotFoundException();
@@ -49,7 +50,7 @@ public class CustomerController
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity handlePost(@RequestBody CustomerDTO customer)
+    public ResponseEntity handlePost(@Validated @RequestBody CustomerDTO customer)
     {
         CustomerDTO savedCustomer = customerService.saveNewCustomer(customer);
 
