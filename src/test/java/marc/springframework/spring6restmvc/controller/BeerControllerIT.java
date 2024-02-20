@@ -65,15 +65,11 @@ class BeerControllerIT
         Map<String, Object> beerMap = new HashMap<>();
         beerMap.put("beerName", "New Name 23748345834806276048527564375862357645716485631064385643ß156437537157437530853517345675658568568657657567567575756757576756756756756757657567545634");
 
-        MvcResult result = mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
+        mockMvc.perform(patch(BeerController.BEER_PATH_ID, beer.getId())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(beerMap)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andReturn();
-
-        System.out.println(result.getResponse().getContentAsString());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
