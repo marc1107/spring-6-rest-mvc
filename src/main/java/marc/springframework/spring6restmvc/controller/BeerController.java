@@ -3,6 +3,7 @@ package marc.springframework.spring6restmvc.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import marc.springframework.spring6restmvc.model.BeerDTO;
+import marc.springframework.spring6restmvc.model.BeerStyle;
 import marc.springframework.spring6restmvc.services.BeerService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,17 +35,15 @@ public class BeerController
     @DeleteMapping(BEER_PATH_ID)
     public ResponseEntity deleteById(@PathVariable UUID beerId)
     {
-        if (!beerService.deleteById(beerId))
-            throw new NotFoundException();
+        if (!beerService.deleteById(beerId)) throw new NotFoundException();
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping(BEER_PATH_ID)
-    public ResponseEntity updateById(@PathVariable UUID beerId,@Validated @RequestBody BeerDTO beer)
+    public ResponseEntity updateById(@PathVariable UUID beerId, @Validated @RequestBody BeerDTO beer)
     {
-        if (beerService.updateBeerById(beerId, beer).isEmpty())
-            throw new NotFoundException();
+        if (beerService.updateBeerById(beerId, beer).isEmpty()) throw new NotFoundException();
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
@@ -61,9 +60,11 @@ public class BeerController
     }
 
     @GetMapping(BEER_PATH)
-    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName)
+    public List<BeerDTO> listBeers(@RequestParam(required = false) String beerName,
+                                   @RequestParam(required = false) BeerStyle beerStyle,
+                                   @RequestParam(required = false) Boolean showInventory)
     {
-        return beerService.listBeers(beerName);
+        return beerService.listBeers(beerName, beerStyle, showInventory);
     }
 
     @GetMapping(BEER_PATH_ID)
